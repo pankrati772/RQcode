@@ -102,16 +102,11 @@
             <el-form-item label="标签规格">
                 
                  <el-select value-key="index" v-model="msg.identification" placeholder="请选择标签规格">
-                <el-option label="中规 小标" value="1"></el-option>
-                <el-option label="中规 大标" value="2"></el-option>
-                <el-option label="欧规 小标" value="3"></el-option>
-                <el-option label="欧规 大标" value="4"></el-option>
-                <el-option label="英规 小标" value="3"></el-option>
-                <el-option label="英规 大标" value="4"></el-option>
-                <el-option label="美规 小标" value="3"></el-option>
-                <el-option label="美规 大标" value="4"></el-option>
-                <el-option label="日规 小标" value="3"></el-option>
-                <el-option label="日规 大标" value="4"></el-option>
+                <el-option label="中文 小标" value="1"></el-option>
+                <el-option label="中文 大标" value="2"></el-option>
+                <el-option label="英文 小标" value="3"></el-option>
+                <el-option label="英文 大标" value="4"></el-option>
+                
 
                 
             </el-select>
