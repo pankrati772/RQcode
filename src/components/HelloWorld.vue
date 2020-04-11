@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+  
     <div class="msgset" v-show="true">
    
       <el-form ref="form" :model="form" label-width="80px">
@@ -55,7 +56,7 @@
             <el-option label="超高精度耳/额温计校准装置-双工位" value="ZKSC-100R-104"></el-option>
             <el-option label="实验室级高精度制冷恒温槽" value="ZKSC-200R-107"></el-option>
             <el-option label="测温人脸一体机" value="ZKSC-10R-203"></el-option>
-            <!-- <el-option label="双子星系列" value="beijing"></el-option> -->
+            
           </el-select>
         </el-form-item>
       </el-form>
@@ -68,15 +69,11 @@
             
           </el-select>
         </el-form-item>
-        <el-form-item label="选择功率">
+        <el-form-item label="输入功率">
           <el-input v-model="form.power" style="width:220px" placeholder="请输入功率">
             <template slot="append">(W)</template>
           </el-input>
-          <!-- <el-select v-model="form.power" placeholder="请选择功率">
-            <el-option label="300W" value="300W"></el-option>
-            
-            
-          </el-select> -->
+          
         </el-form-item>
         <el-form-item label="输入日期">
           <el-input v-model="form.date" style="width:220px" placeholder="例：200317">
@@ -88,34 +85,34 @@
           <el-input v-model="form.size" style="width:220px" placeholder="长X宽X高">
             <template slot="append">(mm)</template>
           </el-input>
-          <!-- <el-select v-model="form.size" placeholder="请选择尺寸">
-            <el-option label="200x110x110(mm)" value="200x110x110(mm)"></el-option>
-            
-            
-          </el-select> -->
+          
         </el-form-item>
         <el-form-item label="输入重量">
           <el-input v-model="form.weight" style="width:220px" placeholder="请输入重量">
             <template slot="append">(Kg)</template>
           </el-input>
           
-          <!-- <el-select v-model="form.weight" placeholder="请选择重量">
-            <el-option label="1.45Kg" value="1.45Kg"></el-option>
-           
-            
-          </el-select> -->
+          
         </el-form-item>
         <el-form-item label="输入产地">
           <el-input v-model="form.area" style="width:220px" placeholder="请输入产地"></el-input>
-          <!-- <el-select v-model="form.weight" placeholder="请选择重量">
-            <el-option label="1.45Kg" value="1.45Kg"></el-option>
-           
-            
-          </el-select> -->
+         
         </el-form-item>
     
          <el-form-item label='输入编码'>
            <el-input v-model="form.last" style="width:220px" placeholder="请输入单个大写英文字母"></el-input>
+         </el-form-item>
+
+         <el-form-item label='选择打印机'>
+            <el-select value-key="id" v-model="form.publishName" placeholder="请选择打印模板">
+                <el-option
+                v-for="item in Printer"
+                :key="item.length"
+                :label="item"
+                :value="item"
+                >
+                </el-option>
+            </el-select>
          </el-form-item>
         <el-form-item style="position:absolute;botton:0;left:-5%;">
           <el-button class="btn" type="primary" @click="onSubmit">立即创建</el-button>
@@ -124,11 +121,7 @@
         </el-form-item>
       </el-form>
       
-      <!-- <div class="warining">
-        注意：日期格式请按照：年（后两位）+月（03）+日  不填则默认当天日期；
-        <br/>
-        若填写生产数量则标签从001开始打 ；若填写开始数量与结束数量标签则从开始到结束数值打印； 生产数量和（开始数量结束数量）不能同时填写
-      </div> -->
+      
     </div>
   
     
@@ -143,7 +136,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-
+      URL:'http://192.168.4.83:8080',
       optionmodel: '',
        form:{
          num: '',
@@ -154,11 +147,11 @@ export default {
           weight:'',
           size:'',
           sn:[],
-          showtime:''
-
+          showtime:'',
+          publishName:''
        },
       makename:'广东中科四创科技有限公司',
-      
+      Printer:[],
 
       sn_model:''
     }
@@ -173,7 +166,6 @@ export default {
         
         if(this.form.date==''){
           myDate.toLocaleDateString(); //获取当前日期
-
           // 按照SN格式提交当前日期
           this.form.date=myDate.toLocaleDateString().replace('/','').replace('/','').substr(2,7)
         
@@ -181,10 +173,14 @@ export default {
           var nian =myDate.getFullYear()
           var yue = myDate.getMonth()+1
           var ri = myDate.getDate()
-         
+          console.log(ri)
+         if(ri<10){
+           ri='0'
+         }
           if(yue.toString().length<2){
             yue = '0'+yue
           }
+          
           this.form.date=nian.toString().substr(2,2)+yue+ri.toString()
           this.form.showtime='20'+this.form.date.substr(0,2)+'年'+this.form.date.substr(3,1)+'月'+this.form.date.substr(4,2)+'日'
           
@@ -233,7 +229,7 @@ export default {
           }
         }
         // 标签打印接口，axios请求
-        axios.post('http://192.168.4.83:8080/sys/publicAgain',this.form).then((data)=>{
+        axios.post(this.URL+'/sys/publicAgain',this.form).then((data)=>{
           console.log(data)
         })
        
@@ -281,6 +277,12 @@ export default {
   mounted(){
     this.restaurants = this.loadAll();
     // console.log(this.form.date=='')
+    // 获取本机打印机驱动
+    axios.get(this.URL+"/sys/publishList").then((data)=>{
+      console.log(data)
+      this.Printer = data.data.data
+    })
+    console.log(this.form.Printer)
    
   },
   updated(){

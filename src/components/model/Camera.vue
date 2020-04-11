@@ -1,19 +1,12 @@
 <template>
   <div class="">
-    摄像头选择
-      <el-select v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-      <router-view/>
+    
+     <cameramsg></cameramsg>
   </div>
 </template>
 
 <script>
+import cameramsg from '@/components/model/cameramsg'
 export default {
   name: 'model',
   data(){
@@ -37,14 +30,10 @@ export default {
         // console.log(tab, event);
       }
   },updated(){
-    if(this.value==='ZKSC-60R-01-201'){
-        //   this.$router.push('/ones/blackmsg',query:{})
-          this.$router.push({path:"/camera/cameramsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-70R-01-202'){
-          this.$router.push({path:"/camera/cameramsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-10R-203'){
-          this.$router.push({path:"/camera/cameramsg",query:{value:this.value}})
-      }
+    
+  },
+  components:{
+    cameramsg
   }
 }
 </script>

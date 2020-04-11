@@ -2,9 +2,11 @@
   <div class="model" >
       <el-button class="btn" @click="numbers" type="primary">一次性多张标签打印</el-button>
       <el-button class="btn" @click="ones" type="primary">黑体流水线标签打印模板配置</el-button>
-      <el-button class="btn" @click="camera" type="primary">摄像机流水线标签打印模板配置</el-button>
+      <el-button class="btn" @click="camera" type="primary">景阳标签配置页面</el-button>
       <el-button class="btn" @click="DY" type="primary">选择模板打印</el-button>
       <el-button class="btn" @click="last" type="primary">校验报告与打包盒标签打印</el-button>
+      <!--<el-button class="btn" @click="JYlast" type="primary">景阳标签包装盒打印</el-button>
+-->
   </div>
 </template>
 
@@ -20,13 +22,16 @@ export default {
 
       },
       camera(){
-        this.$router.push('/camera')
+        this.$router.push('/camera/cameramsg')
       },
       DY(){
         this.$router.push('/DY')
       },
       last(){
         this.$router.push('/last')
+      },
+      JYlast(){
+        this.$router.push('/JYlast')
       }
   }
 }

@@ -4,7 +4,16 @@
       <div class="msgbox" style="display:flex;margin-left:32%;">
           <el-form label-width="80px">
             <el-form-item label="当前机型">
-                <span>{{this.$route.query.value.substring(0,this.$route.query.value.length-4)}}</span>
+                <!--<span>{{this.$route.query.value.substring(0,this.$route.query.value.length-4)}}</span>-->
+                <el-autocomplete
+                class="inline-input"
+                v-model="msg.model"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入当前机型"
+                :trigger-on-focus="false"
+                @select="handleSelect"
+                style="width:220px"
+                ></el-autocomplete>
             </el-form-item>
             <el-form-item label="方案名称">
                 <el-input v-model="msg.planname" style="width:220px" placeholder="请输入方案配置名称" ref='modelname' ></el-input>
@@ -22,18 +31,24 @@
             </el-form-item>
             
             <el-form-item label="产品名称">
-                <el-input v-model="msg.modelname" style="width:220px" placeholder="请勿随意修改" ref='modelname' ></el-input>
+                
+                <el-autocomplete
+                class="inline-input"
+                v-model="msg.modelname"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入内容"
+                :trigger-on-focus="false"
+                @select="handleSelect"
+                style="width:220px"
+                ></el-autocomplete>
             </el-form-item>
            
-            <el-form-item label="设备重量">
-                <el-input v-model="msg.weight" style="width:220px" placeholder="请勿随意修改" ref='date' >
-                    <template slot="append">(Kg)</template>
-                </el-input>
-            </el-form-item>
+           
+            
             
           </el-form>
           <el-form label-width="80px">
-            <el-form-item label="设备尺寸">
+            <el-form-item label="辐射面">
                 <!-- <el-input v-model="msg.size" style="width:220px" placeholder="长x宽x高" ref='size' >
                     <template slot="append">(mm)</template>
                 </el-input> -->
@@ -52,23 +67,54 @@
                 <el-option label="180x110x110(mm)" value="180x110x110(mm)"></el-option>
             </el-select> -->
             </el-form-item>
-            <el-form-item label="设备功率">
-                <el-input v-model="msg.power" style="width:220px" placeholder="请勿随意修改" ref='power'  >
-                    <template slot="append">(W)</template>
-                </el-input>
+            
+              <el-form-item label="设备温度">
+                <el-autocomplete
+                class="inline-input"
+                v-model="msg.power"
+                :fetch-suggestions="querySearch"
+                placeholder="输入温度"
+                :trigger-on-focus="false"
+                @select="handleSelect"
+                style="width:220px"
+                ><template slot="append">(℃)</template></el-autocomplete>
             </el-form-item>
+            
             <el-form-item label="输入电源">
                 <el-select v-model="msg.election" placeholder="请选择电源">
-                <el-option label="DC24V" value="DC24V"></el-option>
-                <el-option label="DC12V" value="DC12V"></el-option>
+                <el-option label="DC24V 90W" value="DC24V 90W"></el-option>
+                
                 
             </el-select>
             </el-form-item>
-            <el-form-item label="设备产地">
-                <el-input v-model="msg.area" style="width:220px" placeholder="请勿随意修改" ref='power'  ></el-input>
+            <el-form-item label="设备料号">
+                <el-select v-model="msg.area" placeholder="请选择标签规格">
+                <el-option label="300-000-0091 中规" value="300-000-0091"></el-option>
+                <el-option label="300-000-0090 欧规" value="300-000-0090"></el-option>
+                <el-option label="300-000-0089 英规" value="300-000-0089"></el-option>
+                <el-option label="300-000-0088 美规" value="300-000-0088"></el-option>
+                <el-option label="300-000-0092 日规" value="300-000-0092"></el-option>
+                
+
+                
+            </el-select>
             </el-form-item>
-            <el-form-item label="最后编码">
-                <el-input v-model="msg.last" style="width:220px" placeholder="请勿随意修改" ref='last'  ></el-input>
+            <el-form-item label="标签规格">
+                
+                 <el-select value-key="index" v-model="msg.identification" placeholder="请选择标签规格">
+                <el-option label="中规 小标" value="1"></el-option>
+                <el-option label="中规 大标" value="2"></el-option>
+                <el-option label="欧规 小标" value="3"></el-option>
+                <el-option label="欧规 大标" value="4"></el-option>
+                <el-option label="英规 小标" value="3"></el-option>
+                <el-option label="英规 大标" value="4"></el-option>
+                <el-option label="美规 小标" value="3"></el-option>
+                <el-option label="美规 大标" value="4"></el-option>
+                <el-option label="日规 小标" value="3"></el-option>
+                <el-option label="日规 大标" value="4"></el-option>
+
+                
+            </el-select>
             </el-form-item>
           </el-form>
           <br/>
@@ -89,12 +135,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: '',
   data(){
       return{
           msg:{
-              model:this.$route.query.value.substring(0,this.$route.query.value.length-4),
+              model:"",
               modelname:'',
               name:'',
               date:'',
@@ -115,13 +162,13 @@ export default {
         // console.log(tab, event);
       },
       make(){
-          this.msg.weight=this.msg.weight+'Kg'
-          this.msg.size=this.msg.size+'mm'
-          this.msg.power=this.msg.power+'W'
-          console.log(this.$route.query.value)
-          this.msg.sn_model=this.$route.query.value.substr(this.$route.query.value.length-3,3)
+          // this.msg.weight=this.msg.weight+'Kg'
+          // this.msg.size=this.msg.size+'mm'
+          // this.msg.power=this.msg.power
+          // console.log(this.$route.query.value)
+          // this.msg.sn_model=this.$route.query.value.substr(this.$route.query.value.length-3,3)
           console.log(this.msg)
-          axios.post('http://localhost:8080/bplan/insertBplan',this.msg).then((data)=>{
+          axios.post('http://192.168.4.83:8080/bplan/insertBplan',this.msg).then((data)=>{
           console.log(data)
           if(data.msg="插入成功给"){
               this.$notify({
@@ -157,21 +204,22 @@ export default {
           {"value":'人体测温黑体'},
           {"value":'高精度恒温制冷槽'},
           {"value":'热成像摄像机'},
-          {"value":'测温人脸一体机'},
+          {"value":'便携式黑体'},
           {"value":'200x110x110'},
           {"value":'200x120x103'},
           {"value":'180x110x110'},
-
+          {"value":'72mm*72mm'},
+          {"value":'SN-TH01'},
+          {"value":'40(+5℃-50℃ adjustable)'},
+          {"value":'40(环温+5℃-50℃可调)'},
+          {"value":"Protable Blackbody"}
         ];
       },
       handleSelect(item) {
         console.log(item);
       },
       back(){
-          this.msg={
-              model:this.$route.query.value.substring(0,this.$route.query.value.length-4),
-              // modelname:'人体测温黑体',
-          }
+          
           this.$router.push('/')
       }
   },updated(){

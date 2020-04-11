@@ -8,6 +8,9 @@ import cameramsg from '@/components/model/cameramsg'
 import camera from '@/components/camera'
 import DY from '@/components/DY'
 import last from '@/components/last'
+import JYlast from '@/components/JYlast'
+
+// import JYlast from '@comments/JYlast'
 Vue.use(Router)
 
 export default new Router({
@@ -22,6 +25,12 @@ export default new Router({
       path: '/numbers',
       name: 'HelloWorld',
       component: HelloWorld
+    }
+    ,
+    {
+      path: '/JYlast',
+      name: 'JYlast',
+      component: JYlast
     },
     {
       path: '/DY',

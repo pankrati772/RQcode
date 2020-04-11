@@ -8,7 +8,7 @@
             <BlacBox></BlacBox>
 
           </el-tab-pane> -->
-          <el-tab-pane label="摄像头系列" name="first">
+          <el-tab-pane label="" name="first">
               <Camera/>
           </el-tab-pane>
          

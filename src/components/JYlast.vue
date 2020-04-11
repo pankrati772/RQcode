@@ -7,21 +7,12 @@
         <el-input
           v-model="snnum"
           @input="sninput()"
-          @blur="getSN()"
+          @blur="search()"
           @focus="clearSN()"
           class="gum-input"
           placeholder="请使用扫码枪扫描二维码"
           ref="modelname"
         ></el-input>
-        <el-select value-key="id" v-model="company" @change="select()" placeholder="请选择标签打印的公司">
-                <el-option
-                v-for="item in Company"
-                :key="item.length"
-                :label="item.name"
-                :value="item"
-                >
-                </el-option>
-            </el-select>
       </el-col>
       
     </el-row>
@@ -51,9 +42,7 @@ export default {
         nextTime: ""
       },
       flg: false,
-      Company:[],
-      company:{},
-      length:''
+      Company:[]
     };
   },
   methods: {
@@ -69,38 +58,47 @@ export default {
       // console.log(this.snnum)
       this.snnum = "";
     },
-    sninput() {
-      let regular = new RegExp(this.company.regular)
-
-      this.inputTime.nextTime = new Date();
-      if (this.inputTime.nextTime - this.inputTime.lastTime < 20) {
-        if (regular.test(this.snnum)) {
-          // if (this.snnum.length >= 13||this.snnum.length<=15) {
-          if (this.snnum.length >= this.company.type.length) {
-            this.snnum.match(regular);
-            this.snnum = RegExp.$1;
-            this.currentSN = this.snnum;
-            this.snnum = ''
-             console.log(this.currentSN)
-             let SN={sn:this.currentSN}
-             if(this.company.name==='中科四创'){
-              axios.post('http://192.168.4.83:8080/sys/publicBox',SN).then((data)=>{
-                console.log(data)
-              })
-             }else if(this.company.name==='景阳'){
-               axios.post('http://192.168.4.83:8080/sys/publishIntelBig',SN).then((data)=>{
-                    console.log(data)
-                    this.snnum=''
-                })
-             }
-            
-          }
-        } else {
-          // console.log(this.snnum)
-        }
+    search(){
+      if(this.snnum.length===17){
+        let SN={sn:this.snnum}
+        console.log(SN)
+                // axios.post('http://192.168.4.83:8080/sys/publishIntelBig',SN).then((data)=>{
+                //     console.log(data)
+                //     this.snnum=''
+                // })
       }
-       
+      
+    }
+    ,
 
+    sninput() {
+    //   this.inputTime.nextTime = new Date();
+    //   if (this.inputTime.nextTime - this.inputTime.lastTime < 20) {
+    //     if (/(\d{12}\w)/.test(this.snnum)) {
+    //       if (this.snnum.length >= 13||this.snnum.length<=15) {
+    //         this.snnum.match(/(\d{12}\w)/g);
+    //         this.snnum = RegExp.$1;
+    //         this.currentSN = this.snnum;
+    //         this.snnum = ''
+    //          console.log(this.currentSN)
+    //          let SN={sn:this.currentSN}
+    //         // axios.post('http://192.168.4.83:8080/sys/publicBox',SN).then((data)=>{
+    //         //   console.log(data)
+    //         // })
+    //       }
+    //     } else {
+    //       console.log(this.snnum)
+    //     }
+    //   }
+    if(this.snnum.length==17){
+        console.log(this.snnum)
+       let SN={sn:this.snnum}
+        axios.post('http://192.168.4.83:8080/sys/publishIntelBig',SN).then((data)=>{
+            console.log(data)
+            this.snnum=''
+        })
+    }
+       
       // if(this.currentSN.length<13){
       //   console.log('no')
       // }else{
@@ -114,9 +112,8 @@ export default {
     },
     getSN() {
       //       console.log(/(\d{12}\w)/.test(this.snnum));
-      let regular = new RegExp(this.company.regular)
-      if (regular.test(this.snnum)) {
-        this.snnum.match(regular);
+      if (/(\d{12}\w)/.test(this.snnum)) {
+        this.snnum.match(/(\d{12}\w)/);
         this.snnum = RegExp.$1;
       } else {
       }
@@ -133,31 +130,25 @@ export default {
     },
     back() {
       this.$router.push({ path: "/" });
-    },
-    select(){
-      console.log(this.company)
-      
     }
   },
   watch: {
-    // company(newValue){
-    //   console.log(newValue)
-    //   // this.company = newValue.regular
-    //   // this.length = newValue.type.length
-    //   // console.log(this.company,this.length)
-    //   // console.log(this.company)
-    // }
-
+    snnum() {
+      // console.log(this.snnum.length)
+      // if(this.snnum.length===13){
+      //   this.DY()
+      //   window.location.href='http://192.168.4.77:8188/#/report?SN='+this.snnum;
+      // }
+    }
   },
   mounted() {
     this.$refs.modelname.focus();
-    axios.get('http://192.168.4.83:8080/factory/getAll').then((data)=>{
+    //获取公司
+     axios.get('http://192.168.4.64:8080/factory/getAll').then((data)=>{
         console.log(data.data)
         this.Company=data.data.data
-        // console.log(this.company)
+        console.log(this.Company)
       })
-
-      
   },
   components: {
     report

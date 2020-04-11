@@ -109,7 +109,7 @@ export default {
               sn_model:''
           },
           control:true,
-          
+          URL:'http://192.168.4.83:8080'
       }
   },
   methods:{
@@ -123,7 +123,7 @@ export default {
           console.log(this.$route.query.value)
           this.msg.sn_model=this.$route.query.value.substr(this.$route.query.value.length-3,3)
           console.log(this.msg)
-          axios.post('http://localhost:8080/bplan/insertBplan',this.msg).then((data)=>{
+          axios.post(this.URL+'/bplan/insertBplan',this.msg).then((data)=>{
           console.log(data)
           if(data.msg="插入成功给"){
               this.$notify({
