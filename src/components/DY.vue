@@ -122,8 +122,10 @@
 
 <script>
 import axios from 'axios'
+import store from '@/vuex/store.js'
 export default {
   name: 'App',
+  store,
   data(){
       return{
         
@@ -145,7 +147,8 @@ export default {
         companys:true,
         jingyang:false,
         printer:[],
-        URL:'http://192.168.4.83:8080'
+        factory:'',
+        URL:'http://localhost:8080'
 
       }
   },updated(){
@@ -153,13 +156,8 @@ export default {
       
   },
   mounted(){
-    // 获取方案
-      axios.get(this.URL+'/bplan/getAllBPlan').then((data)=>{
-          console.log(data.data)
-          this.option=data.data.data
-          console.log(this.option)
-
-      })
+      console.log(this.$store.state.URL)
+      this.URL=this.$store.state.URL
       // 获取公司
       axios.get(this.URL+'/factory/getAll').then((data)=>{
         console.log(data.data)
@@ -170,6 +168,7 @@ export default {
       axios.get(this.URL+"/sys/publishList").then((data)=>{
       console.log(data)
       this.printer = data.data.data
+      this.printer.push("")
     })
 
 
@@ -325,16 +324,30 @@ export default {
 
     },
     company(newName){
-      console.log(newName.name)
+      console.log(newName)
       if(newName.name==='中科四创'){
         this.companys=true
         this.jingyang=false
         this.msg.date=this.date
+        this.factory=newName.id
+        axios.post(this.URL+'/bplan/getAllBPlan',{factory:this.factory}).then((data)=>{
+          console.log(data.data)
+          this.option=data.data.data
+          console.log(this.option)
+
+      })
 
       }else if(newName.name==='景阳'){
         this.companys=false
         this.jingyang=true
         this.msg.date='20'+this.msg.date
+        this.factory=newName.id
+        axios.post(this.URL+'/bplan/getAllBPlan',{factory:this.factory}).then((data)=>{
+          console.log(data.data)
+          this.option=data.data.data
+          console.log(this.option)
+
+      })
         
 
       }

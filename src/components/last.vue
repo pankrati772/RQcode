@@ -53,7 +53,8 @@ export default {
       flg: false,
       Company:[],
       company:{},
-      length:''
+      length:'',
+      URL:'http://192.168.4.77:8080'
     };
   },
   methods: {
@@ -84,11 +85,11 @@ export default {
              console.log(this.currentSN)
              let SN={sn:this.currentSN}
              if(this.company.name==='中科四创'){
-              axios.post('http://192.168.4.83:8080/sys/publicBox',SN).then((data)=>{
+              axios.post(this.URL+'/sys/publicBox',SN).then((data)=>{
                 console.log(data)
               })
              }else if(this.company.name==='景阳'){
-               axios.post('http://192.168.4.83:8080/sys/publishIntelBig',SN).then((data)=>{
+               axios.post(this.URL+'/sys/publishIntelBig',SN).then((data)=>{
                     console.log(data)
                     this.snnum=''
                 })
@@ -125,7 +126,7 @@ export default {
       if(this.snnum===''){
 
       }else{
-        axios.post('http://192.168.4.83:8080/sys/publicBox',SN).then((data)=>{
+        axios.post(this.URL+'/sys/publicBox',SN).then((data)=>{
               console.log(data)
             })
       }
@@ -151,7 +152,7 @@ export default {
   },
   mounted() {
     this.$refs.modelname.focus();
-    axios.get('http://192.168.4.83:8080/factory/getAll').then((data)=>{
+    axios.get(this.URL+'/factory/getAll').then((data)=>{
         console.log(data.data)
         this.Company=data.data.data
         // console.log(this.company)

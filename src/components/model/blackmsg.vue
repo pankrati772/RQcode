@@ -30,7 +30,17 @@
                     <template slot="append">(Kg)</template>
                 </el-input>
             </el-form-item>
-            
+            <el-form-item label="选择公司">
+                <el-select value-key="id" v-model="msg.factorY" @change="select()" placeholder="请选择公司">
+                  <el-option
+                  v-for="item in msg.Factory"
+                  :key="item.length"
+                  :label="item.name"
+                  :value="item"
+                  >
+                  </el-option>
+                </el-select>
+            </el-form-item>
           </el-form>
           <el-form label-width="80px">
             <el-form-item label="设备尺寸">
@@ -90,8 +100,11 @@
 
 <script>
 import axios from 'axios'
+import store from '@/vuex/store.js'
+
 export default {
   name: 'model',
+  store,
   data(){
       return{
           msg:{
@@ -106,10 +119,14 @@ export default {
               election:'',
               weight:'',
               area:'',
-              sn_model:''
+              sn_model:'',
+              factory:'',
+              factorY:'',
+              Factory:[]
           },
           control:true,
-          URL:'http://192.168.4.83:8080'
+          URL:'http://localhost:8080',
+          
       }
   },
   methods:{
@@ -175,11 +192,17 @@ export default {
               modelname:'人体测温黑体',
           }
           this.$router.push('/')
-      }
+      },
+       select(){
+        console.log(this.msg.factorY)
+        this.msg.factory=this.msg.factorY.id;
+      },
   },
   mounted(){
       this.restaurants = this.loadAll();
     //   console.log(this.$route.query.value)
+      this.URL=this.$store.state.URL
+
       var myDate = new Date();
       myDate.toLocaleDateString(); //获取当前日期
       this.msg.date=myDate.toLocaleDateString().replace('/','').replace('/','').substr(2,7)
@@ -191,7 +214,12 @@ export default {
       }
       this.msg.date=nian.toString().substr(2,2)+yue+ri.toString()
 
-
+    // 获取公司
+    axios.get('http://192.168.4.83:8080/factory/getAll').then((data)=>{
+            console.log(data)
+            this.msg.Factory=data.data.data
+            // console.log(state)
+        })
         
   },
   updated(){

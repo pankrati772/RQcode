@@ -29,7 +29,17 @@
                 style="width:220px"
                 ></el-autocomplete>
             </el-form-item>
-            
+            <el-form-item label="选择公司">
+                <el-select value-key="id" v-model="msg.factorY" @change="select()" placeholder="请选择公司">
+                  <el-option
+                  v-for="item in msg.Factory"
+                  :key="item.length"
+                  :label="item.name"
+                  :value="item"
+                  >
+                  </el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="产品名称">
                 
                 <el-autocomplete
@@ -131,6 +141,8 @@
 
 <script>
 import axios from 'axios'
+import store from '@/vuex/store.js'
+
 export default {
   name: '',
   data(){
@@ -147,23 +159,30 @@ export default {
               election:'',
               weight:'',
               area:'',
-              sn_model:''
+              sn_model:'',
+              factory:'',
+              factorY:'',
+              Factory:[]
           },
-          control:true
+          control:true,
+          URL:'http://localhost:8080'
       }
   },
+  store,
+
   methods:{
       handleClick(tab, event) {
         // console.log(tab, event);
       },
+      select(){
+        console.log(this.msg.factorY)
+        this.msg.factory=this.msg.factorY.id;
+      },
+
       make(){
-          // this.msg.weight=this.msg.weight+'Kg'
-          // this.msg.size=this.msg.size+'mm'
-          // this.msg.power=this.msg.power
-          // console.log(this.$route.query.value)
-          // this.msg.sn_model=this.$route.query.value.substr(this.$route.query.value.length-3,3)
+          
           console.log(this.msg)
-          axios.post('http://192.168.4.83:8080/bplan/insertBplan',this.msg).then((data)=>{
+          axios.post(this.URL+'/bplan/insertBplan',this.msg).then((data)=>{
           console.log(data)
           if(data.msg="插入成功给"){
               this.$notify({
@@ -221,6 +240,16 @@ export default {
     
   },mounted(){
     this.restaurants = this.loadAll();
+    // this.$store.commit('test')
+    // console.log(this.$store.state.compant)
+    // this.msg.Factory=this.$store.state.compant
+    // console.log(this.msg.Factory)
+    this.URL=this.$store.state.URL
+    axios.get(this.URL+'/factory/getAll').then((data)=>{
+            console.log(data)
+            this.msg.Factory=data.data.data
+            // console.log(state)
+        })
   }
 }
 </script>

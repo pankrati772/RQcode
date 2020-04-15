@@ -131,12 +131,15 @@
 <script>
 import QRcode from 'qrcodejs2'
 import axios from 'axios'
+import store from '@/vuex/store.js'
+
 export default {
   
   name: 'HelloWorld',
+  store,
   data () {
     return {
-      URL:'http://192.168.4.83:8080',
+      URL:'http://localhost:8080',
       optionmodel: '',
        form:{
          num: '',
@@ -278,6 +281,9 @@ export default {
     this.restaurants = this.loadAll();
     // console.log(this.form.date=='')
     // 获取本机打印机驱动
+    // this.$store.state.URL=this.URL
+      this.URL=this.$store.state.URL
+
     axios.get(this.URL+"/sys/publishList").then((data)=>{
       console.log(data)
       this.Printer = data.data.data

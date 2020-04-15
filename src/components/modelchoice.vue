@@ -5,12 +5,15 @@
       <el-button class="btn" @click="camera" type="primary">景阳标签配置页面</el-button>
       <el-button class="btn" @click="DY" type="primary">选择模板打印</el-button>
       <el-button class="btn" @click="last" type="primary">校验报告与打包盒标签打印</el-button>
-      <!--<el-button class="btn" @click="JYlast" type="primary">景阳标签包装盒打印</el-button>
--->
+      <!--<el-button class="btn" @click="JYlast" type="primary">vuex测试按钮</el-button>-->
+
+
   </div>
 </template>
 
 <script>
+import store from '@/vuex/store.js'
+// import {mutations} from 'vuex'
 export default {
   name: 'model',
   methods:{
@@ -31,8 +34,16 @@ export default {
         this.$router.push('/last')
       },
       JYlast(){
-        this.$router.push('/JYlast')
-      }
+        // this.$router.push('/JYlast')
+        // this.$store.commit('test')
+      },
+      
+  },
+  store,
+  mounted(){
+    console.log(this.$store.state)
+    // this.$store.commit('test')
+    
   }
 }
 </script>
