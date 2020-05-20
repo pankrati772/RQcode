@@ -3,8 +3,27 @@
       
       <div class="msgbox" style="display:flex;margin-left:32%;">
           <el-form label-width="80px">
-            <el-form-item label="当前机型">
-                <span>{{this.$route.query.value.substring(0,this.$route.query.value.length-4)}}</span>
+             <el-form-item label="选择公司">
+                <el-select value-key="id" v-model="msg.factorY" @change="select()" placeholder="请选择公司">
+                  <el-option
+                  v-for="item in msg.Factory"
+                  :key="item.length"
+                  :label="item.name"
+                  :value="item"
+                  >
+                  </el-option>
+                </el-select>
+            </el-form-item>
+           <el-form-item label="产品名称">
+                <el-select value-key="id" v-model="msg.model"   placeholder="请选择产品型号">
+                  <el-option
+                  v-for="item in msg.modeltype"
+                  :key="item.length"
+                  :label="item.model"
+                  :value="item.model"
+                  >
+                  </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="方案名称">
                 <el-input v-model="msg.planname" style="width:220px" placeholder="请输入方案配置名称" ref='modelname' ></el-input>
@@ -30,17 +49,7 @@
                     <template slot="append">(Kg)</template>
                 </el-input>
             </el-form-item>
-            <el-form-item label="选择公司">
-                <el-select value-key="id" v-model="msg.factorY" @change="select()" placeholder="请选择公司">
-                  <el-option
-                  v-for="item in msg.Factory"
-                  :key="item.length"
-                  :label="item.name"
-                  :value="item"
-                  >
-                  </el-option>
-                </el-select>
-            </el-form-item>
+           
           </el-form>
           <el-form label-width="80px">
             <el-form-item label="设备尺寸">
@@ -80,6 +89,7 @@
             <el-form-item label="最后编码">
                 <el-input v-model="msg.last" style="width:220px" placeholder="请勿随意修改" ref='last'  ></el-input>
             </el-form-item>
+            
           </el-form>
           <br/>
           
@@ -108,7 +118,7 @@ export default {
   data(){
       return{
           msg:{
-              model:this.$route.query.value.substring(0,this.$route.query.value.length-4),
+              model:"",
               modelname:'人体测温黑体',
               name:'',
               date:'',
@@ -122,10 +132,12 @@ export default {
               sn_model:'',
               factory:'',
               factorY:'',
-              Factory:[]
+              Factory:[],
+              modeltype:[]
           },
           control:true,
           URL:'http://localhost:8080',
+          serveURL:''
           
       }
   },
@@ -137,8 +149,12 @@ export default {
           this.msg.weight=this.msg.weight+'Kg'
           this.msg.size=this.msg.size+'mm'
           this.msg.power=this.msg.power+'W'
-          console.log(this.$route.query.value)
-          this.msg.sn_model=this.$route.query.value.substr(this.$route.query.value.length-3,3)
+          // console.log(this.$route.query.value)
+          // console.log(this.msg.model.substr(this.msg.model.length-3,3))
+          setTimeout(()=>{
+            this.msg.sn_model=this.msg.model.substr(this.msg.model.length-3,3)
+          },200)
+          // this.msg.sn_model=this.msg.model.substr(this.$route.query.value.length-3,3)
           console.log(this.msg)
           axios.post(this.URL+'/bplan/insertBplan',this.msg).then((data)=>{
           console.log(data)
@@ -187,22 +203,26 @@ export default {
         
       },
       back(){
-          this.msg={
-              model:this.$route.query.value.substring(0,this.$route.query.value.length-4),
-              modelname:'人体测温黑体',
-          }
+          
           this.$router.push('/')
       },
        select(){
         console.log(this.msg.factorY)
         this.msg.factory=this.msg.factorY.id;
+        //根据所选公司指定查找公司的指定型号
+        axios.post(this.serveURL+'/Dev/getDevModelByFactoryId',{factoryId:this.msg.factory}).then((data)=>{
+          console.log(data)
+          this.msg.modeltype=data.data.data
+          console.log(this.msg.modeltype)
+        })
       },
   },
   mounted(){
       this.restaurants = this.loadAll();
     //   console.log(this.$route.query.value)
       this.URL=this.$store.state.URL
-
+      this.serveURL=this.$store.state.serverURL
+      console.log(this.serveURL)
       var myDate = new Date();
       myDate.toLocaleDateString(); //获取当前日期
       this.msg.date=myDate.toLocaleDateString().replace('/','').replace('/','').substr(2,7)
@@ -215,7 +235,7 @@ export default {
       this.msg.date=nian.toString().substr(2,2)+yue+ri.toString()
 
     // 获取公司
-    axios.get('http://192.168.4.83:8080/factory/getAll').then((data)=>{
+    axios.get(this.URL+'/factory/getAll').then((data)=>{
             console.log(data)
             this.msg.Factory=data.data.data
             // console.log(state)

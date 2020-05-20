@@ -1,6 +1,6 @@
 <template>
   <div class="">
-      黑体选择
+      <!-- 黑体选择
       <el-select v-model="value" placeholder="请选择">
             <el-option
               v-for="item in options"
@@ -9,11 +9,13 @@
               :value="item.value">
             </el-option>
           </el-select>
-          <router-view/> 
+          <router-view/>  -->
+          <blackmsg></blackmsg>
   </div>
 </template>
 
 <script>
+import blackmsg from '@/components/model/blackmsg'
 export default {
   name: 'model',
   data(){
@@ -48,6 +50,9 @@ export default {
         value: ''
       }
   },
+  components:{
+    blackmsg
+  },
   methods:{
       handleClick(tab, event) {
         // console.log(tab, event);
@@ -55,23 +60,7 @@ export default {
   },
   updated(){
       // console.log(this.value)
-      if(this.value==='ZKSC-60R-02-101'){
-        //   this.$router.push('/ones/blackmsg',query:{})
-          this.$router.push({path:"/ones/blackmsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-70R-02-102'){
-          this.$router.push({path:"/ones/blackmsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-80R-103'){
-          this.$router.push({path:"/ones/blackmsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-100R-104'){
-          this.$router.push({path:"/ones/blackmsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-160R-105'){
-          this.$router.push({path:"/ones/blackmsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-180R-106'){
-          this.$router.push({path:"/ones/blackmsg",query:{value:this.value}})
-      }else if(this.value==='ZKSC-200R-107'){
-          this.$router.push({path:"/ones/blackmsg",query:{value:this.value}})
-
-      }
+      
   }
 }
 </script>

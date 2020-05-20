@@ -3,32 +3,6 @@
       
       <div class="msgbox" style="display:flex;margin-left:32%;">
           <el-form label-width="80px">
-            <el-form-item label="当前机型">
-                <!--<span>{{this.$route.query.value.substring(0,this.$route.query.value.length-4)}}</span>-->
-                <el-autocomplete
-                class="inline-input"
-                v-model="msg.model"
-                :fetch-suggestions="querySearch"
-                placeholder="请输入当前机型"
-                :trigger-on-focus="false"
-                @select="handleSelect"
-                style="width:220px"
-                ></el-autocomplete>
-            </el-form-item>
-            <el-form-item label="方案名称">
-                <el-input v-model="msg.planname" style="width:220px" placeholder="请输入方案配置名称" ref='modelname' ></el-input>
-            </el-form-item>
-            <el-form-item label="公司名称">
-                <el-autocomplete
-                class="inline-input"
-                v-model="msg.name"
-                :fetch-suggestions="querySearch"
-                placeholder="请输入内容"
-                :trigger-on-focus="false"
-                @select="handleSelect"
-                style="width:220px"
-                ></el-autocomplete>
-            </el-form-item>
             <el-form-item label="选择公司">
                 <el-select value-key="id" v-model="msg.factorY" @change="select()" placeholder="请选择公司">
                   <el-option
@@ -41,7 +15,20 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="产品名称">
-                
+                <el-select value-key="id" v-model="msg.model"  placeholder="请选择公司">
+                  <el-option
+                  v-for="item in msg.modeltype"
+                  :key="item.length"
+                  :label="item.model"
+                  :value="item.model"
+                  >
+                  </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="方案名称">
+                <el-input v-model="msg.planname" style="width:220px" placeholder="请输入方案配置名称" ref='modelname' ></el-input>
+            </el-form-item>
+            <el-form-item label="产品名称">
                 <el-autocomplete
                 class="inline-input"
                 v-model="msg.modelname"
@@ -52,6 +39,18 @@
                 style="width:220px"
                 ></el-autocomplete>
             </el-form-item>
+            <el-form-item label="公司名称">
+                <el-autocomplete
+                class="inline-input"
+                v-model="msg.name"
+                :fetch-suggestions="querySearch"
+                placeholder="请输入内容"
+                :trigger-on-focus="false"
+                @select="handleSelect"
+                style="width:220px"
+                ></el-autocomplete>
+            </el-form-item>
+            
            
            
             
@@ -104,6 +103,7 @@
                 <el-option label="300-000-0089 英规" value="300-000-0089"></el-option>
                 <el-option label="300-000-0088 美规" value="300-000-0088"></el-option>
                 <el-option label="300-000-0092 日规" value="300-000-0092"></el-option>
+                <el-option label="ZX0-000-0088 中性" value="ZX0-000-0088"></el-option>
                 
 
                 
@@ -162,7 +162,8 @@ export default {
               sn_model:'',
               factory:'',
               factorY:'',
-              Factory:[]
+              Factory:[],
+              modeltype:[]
           },
           control:true,
           URL:'http://localhost:8080'
@@ -177,6 +178,11 @@ export default {
       select(){
         console.log(this.msg.factorY)
         this.msg.factory=this.msg.factorY.id;
+        axios.post(this.URL+'/Dev/getDevModelByFactoryId',{factoryId:this.msg.factory}).then((data)=>{
+          console.log(data)
+          this.msg.modeltype=data.data.data
+          console.log(this.msg.modeltype)
+        })
       },
 
       make(){
@@ -226,7 +232,7 @@ export default {
           {"value":'SN-TH01'},
           {"value":'40(+5℃-50℃ adjustable)'},
           {"value":'40(环温+5℃-50℃可调)'},
-          {"value":"Protable Blackbody"}
+          {"value":"Portable Blackbody"}
         ];
       },
       handleSelect(item) {
@@ -244,7 +250,7 @@ export default {
     // console.log(this.$store.state.compant)
     // this.msg.Factory=this.$store.state.compant
     // console.log(this.msg.Factory)
-    this.URL=this.$store.state.URL
+    this.URL=this.$store.state.serverURL
     axios.get(this.URL+'/factory/getAll').then((data)=>{
             console.log(data)
             this.msg.Factory=data.data.data

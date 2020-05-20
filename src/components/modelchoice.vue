@@ -4,8 +4,8 @@
       <el-button class="btn" @click="ones" type="primary">黑体流水线标签打印模板配置</el-button>
       <el-button class="btn" @click="camera" type="primary">景阳标签配置页面</el-button>
       <el-button class="btn" @click="DY" type="primary">选择模板打印</el-button>
-      <el-button class="btn" @click="last" type="primary">校验报告与打包盒标签打印</el-button>
-      <!--<el-button class="btn" @click="JYlast" type="primary">vuex测试按钮</el-button>-->
+      <el-button class="btn" @click="last" type="primary">包盒标签打印</el-button>
+      <el-button class="btn" @click="Configuration" type="primary">黑体型号配置</el-button>
 
 
   </div>
@@ -21,7 +21,7 @@ export default {
           this.$router.push('/numbers')
       },
       ones(){
-          this.$router.push('/ones')
+          this.$router.push('/ones/blackmsg')
 
       },
       camera(){
@@ -33,17 +33,24 @@ export default {
       last(){
         this.$router.push('/last')
       },
-      JYlast(){
-        // this.$router.push('/JYlast')
+      Configuration(){
+        this.$router.push('/Configuration')
         // this.$store.commit('test')
       },
       
   },
   store,
   mounted(){
-    console.log(this.$store.state)
+    // console.log(this.$store.state)
     // this.$store.commit('test')
-    
+
+    // console.log(...this.list)
+   
+  },
+  data(){
+    return {
+      list:[1,2,2,3,4,5]
+    }
   }
 }
 </script>

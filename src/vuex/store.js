@@ -9,20 +9,17 @@ Vue.use(Vuex)
 
 // 声明常量
 const state = {
-    URL:'http://192.168.4.83:8080',
+    URL:'http://192.168.3.83:8080',
     autotest:'http://192.168.4.83:8080/autotest',
+    serverURL:'http://192.168.3.119:8080/autotest',
     compant:''
+    // localhost:8080/autotest
 }
 
 
 // 辅助函数
 const mutations = {
-	add(state){
-		state.count++;	
-	},
-	jian(state){
-		state.count--;
-    },
+
     test(state){
         // console.log(state.URL)
         axios.get(state.URL+'/factory/getAll').then((data)=>{

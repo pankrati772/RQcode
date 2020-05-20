@@ -240,7 +240,20 @@ export default {
         
         console.log('这是提交完的'+this.form)
         // 数据清空
-        window.location.reload()
+        // window.location.reload()
+        this.form={
+          num: '',
+          model: '',
+          date: '',
+          power:'',
+          election:'',
+          weight:'',
+          size:'',
+          sn:[],
+          showtime:'',
+          publishName:''
+        }
+        this.optionmodel=''
         
       },
       createFilter(queryString) {

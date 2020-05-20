@@ -9,7 +9,7 @@ import camera from '@/components/camera'
 import DY from '@/components/DY'
 import last from '@/components/last'
 import JYlast from '@/components/JYlast'
-
+import Configuration from '@/components/Configuration'
 // import JYlast from '@comments/JYlast'
 Vue.use(Router)
 
@@ -25,6 +25,12 @@ export default new Router({
       path: '/numbers',
       name: 'HelloWorld',
       component: HelloWorld
+    }
+    ,
+    {
+      path: '/Configuration',
+      name: 'Configuration',
+      component: Configuration
     }
     ,
     {

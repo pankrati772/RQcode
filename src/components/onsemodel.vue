@@ -3,9 +3,9 @@
       <!-- <h1>单次打印模板</h1> -->
 
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="黑体标签信息配置页面" name="first">
+          <el-tab-pane label="" name="first">
             
-            <BlacBox></BlacBox>
+            <BlacBox/>
 
           </el-tab-pane>
           <!-- <el-tab-pane label="摄像头系列" name="second">

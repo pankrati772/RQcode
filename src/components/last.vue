@@ -1,7 +1,7 @@
 <template>
   <div id="last" class="model">
     <el-row>
-      <el-col class="title" :span="3">扫码查看报告：</el-col>
+      <el-col class="title" :span="3">扫码打印标签：</el-col>
       <el-col class="topbar" :span="6">
         
         <el-input
@@ -13,6 +13,7 @@
           placeholder="请使用扫码枪扫描二维码"
           ref="modelname"
         ></el-input>
+        <span>请选择标签公司 ：</span>
         <el-select value-key="id" v-model="company" @change="select()" placeholder="请选择标签打印的公司">
                 <el-option
                 v-for="item in Company"
@@ -22,25 +23,46 @@
                 >
                 </el-option>
             </el-select>
+            <div>
+              <span>请 选 择 打 印 机</span>
+              <el-select value-key="value" v-model="publishName" placeholder="请选择打印模板">
+                <el-option
+                v-for="item in Printer"
+                :key="item.id"
+                :label="item"
+                :value="item"
+                >
+                </el-option>
+            </el-select>
+            </div>
+            
+       
       </el-col>
       
     </el-row>
-    <div class="topbar"></div>
-
-    <!-- <a :href=this.sn target="_blank"><el-button @click="DY()" type="primary">查看</el-button></a> -->
-    <!-- <el-button @click="back">返回</el-button> -->
-
-    <div class="iframe-box">
-      <report :SN="currentSN" @stop="selectStop()" />
+    <div class="topbar">
     </div>
+    
+    
+
+    <!-- <el-button class="btns" type="danger" @click="print">打印</el-button> -->
+    <!-- <a :href=this.sn target="_blank"><el-button @click="DY()" type="primary">查看</el-button></a> -->
+    <el-button class="btns" type="danger" @click="back">返回</el-button>
+
+    <!--<div class="iframe-box">
+      <report :SN="currentSN" @stop="selectStop()" />
+    </div>-->
   </div>
 </template>
 
 <script>
 import report from "../components/autoprint";
 import axios from 'axios'
+import store from '@/vuex/store.js'
+
 export default {
   name: "last",
+  store,
   data() {
     return {
       snnum: "",
@@ -54,10 +76,17 @@ export default {
       Company:[],
       company:{},
       length:'',
-      URL:'http://192.168.4.77:8080'
+      URL:'http://localhost:8080/autotest',
+      publishName:'',
+      Printer:[]
     };
   },
   methods: {
+    print(){
+      console.log(this.ssn1,this.ssn2)
+      axios.post(this.URL+'')
+      
+    },
     clearSN() {
       this.snnum = "";
     },
@@ -84,12 +113,16 @@ export default {
             this.snnum = ''
              console.log(this.currentSN)
              let SN={sn:this.currentSN}
+             let msg = {
+               publishName:this.publishName,
+               sn:this.currentSN
+             }
              if(this.company.name==='中科四创'){
-              axios.post(this.URL+'/sys/publicBox',SN).then((data)=>{
+              axios.post(this.URL+'/sys/publicBox',msg).then((data)=>{
                 console.log(data)
               })
              }else if(this.company.name==='景阳'){
-               axios.post(this.URL+'/sys/publishIntelBig',SN).then((data)=>{
+               axios.post(this.URL+'/sys/publicJYBig',msg).then((data)=>{
                     console.log(data)
                     this.snnum=''
                 })
@@ -151,12 +184,20 @@ export default {
 
   },
   mounted() {
+      this.URL=this.$store.state.URL
+
     this.$refs.modelname.focus();
     axios.get(this.URL+'/factory/getAll').then((data)=>{
         console.log(data.data)
         this.Company=data.data.data
         // console.log(this.company)
       })
+
+
+      axios.get(this.URL+"/sys/publishList").then((data)=>{
+      console.log(data)
+      this.Printer = data.data.data
+    })
 
       
   },
@@ -184,5 +225,10 @@ export default {
 .title {
   font-size: 3.0rem;
   margin-left: 50px; 
+}
+.btns{
+  width:400px;
+  height:85px;
+  font-size: 50px;
 }
 </style>
