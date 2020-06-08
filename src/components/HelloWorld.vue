@@ -1,3 +1,30 @@
+
+
+
+<!--
+ *                                                     __----~~~~~~~~~~~------___
+ *                                    .  .   ~~//====......          __--~ ~~
+ *                    -.            \_|//     |||\\  ~~~~~~::::... /~
+ *                 ___-==_       _-~o~  \/    |||  \\            _/~~-
+ *         __---~~~.==~||\=_    -_--~/_-~|-   |\\   \\        _/~
+ *     _-~~     .=~    |  \\-_    '-~7  /-   /  ||    \      /
+ *   .~       .~       |   \\ -_    /  /-   /   ||      \   /
+ *  /  ____  /         |     \\ ~-_/  /|- _/   .||       \ /
+ *  |~~    ~~|--~~~~--_ \     ~==-/   | \~--===~~        .\
+ *           '         ~-|      /|    |-~\~~       __--~~
+ *                       |-~~-_/ |    |   ~\_   _-~            /\
+ *                            /  \     \__   \/~                \__
+ *                        _--~ _/ | .-~~____--~-/                  ~~==.
+ *                       ((->/~   '.|||' -_|    ~~-/ ,              . _||
+ *                                  -_     ~\      ~~---l__i__i__i--~~_/
+ *                                  _-~-__   ~)  \--______________--~~
+ *                                //.-~~~-~_--~- |-------~~~~~~~~
+ *                                       //.-~~~--\
+ *                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * 
+ *                               神兽保佑            永无BUG
+ -->
+
 <template>
   <div class="hello">
   
@@ -314,7 +341,7 @@ export default {
 			console.log(newName)
       if(newName==='180x110x110'){
         this.form.name='广东中科四创科技有限公司',
-        this.form.modelname='人体测温黑体'
+        this.form.modelname='便携式黑体'
         this.form.weight='1.45'
         this.form.size='180x110x110'
         this.form.area='中国'
@@ -323,7 +350,7 @@ export default {
         this.form.model='ZKSC-70R-02-102'
       }else if(newName==='200x110x110'){
         this.form.name='广东中科四创科技有限公司',
-        this.form.modelname='人体测温黑体'
+        this.form.modelname='便携式黑体'
         this.form.weight='1.45'
         this.form.size='200x110x110'
         this.form.area='中国'
@@ -332,7 +359,7 @@ export default {
         this.form.model='ZKSC-70R-02-102'
       }else if(newName==='200x120x103'){
         this.form.name='广东中科四创科技有限公司',
-        this.form.modelname='人体测温黑体'
+        this.form.modelname='便携式黑体'
         this.form.weight='1.45'
         this.form.size='200x120x103'
         this.form.area='中国'

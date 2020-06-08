@@ -1,3 +1,11 @@
+/*
+ * @Author: PSB
+ * @Date: 2020-04-13 14:37:54
+ */ 
+
+
+
+
 // 引入vue
 import Vue from 'vue';
 // 引入vuex
@@ -9,7 +17,7 @@ Vue.use(Vuex)
 
 // 声明常量
 const state = {
-    URL:'http://192.168.3.83:8080',
+    URL:'http://192.168.4.64:8080',
     autotest:'http://192.168.4.83:8080/autotest',
     serverURL:'http://192.168.3.119:8080/autotest',
     compant:''

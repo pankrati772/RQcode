@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-06-02 09:13:19
+ * @LastEditTime: 2020-06-06 13:43:47
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \RQcode\src\router\index.js
+ */ 
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
@@ -10,7 +18,9 @@ import DY from '@/components/DY'
 import last from '@/components/last'
 import JYlast from '@/components/JYlast'
 import Configuration from '@/components/Configuration'
-// import JYlast from '@comments/JYlast'
+import SpecialLabel from '@/components/SpecialLabel'
+import cameraLabel from '@/components/cameraLabel'
+import outside from '@/components/outside'
 Vue.use(Router)
 
 export default new Router({
@@ -31,6 +41,22 @@ export default new Router({
       path: '/Configuration',
       name: 'Configuration',
       component: Configuration
+    },
+    {
+      path: '/outside',
+      name: 'outside',
+      component: outside
+    },
+    {
+      path: '/SpecialLabel',
+      name: 'SpecialLabel',
+      component: SpecialLabel
+    }
+    ,
+    {
+      path: '/cameraLabel',
+      name: 'cameraLabel',
+      component: cameraLabel
     }
     ,
     {

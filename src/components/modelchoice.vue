@@ -1,3 +1,7 @@
+<!--
+ * @Author: PSB
+ * @Date: 2020-04-01 09:53:47
+--> 
 <template>
   <div class="model" >
       <el-button class="btn" @click="numbers" type="primary">一次性多张标签打印</el-button>
@@ -6,6 +10,9 @@
       <el-button class="btn" @click="DY" type="primary">选择模板打印</el-button>
       <el-button class="btn" @click="last" type="primary">包盒标签打印</el-button>
       <el-button class="btn" @click="Configuration" type="primary">黑体型号配置</el-button>
+      <el-button class="btn" @click="SpecialLabel" type="primary">特殊标签信息录入</el-button>
+      <el-button class="btn" @click="cameraLabel" type="primary">摄像机标签更换</el-button>
+      <el-button class="btn" @click="outside" type="primary">外包装箱标签打印</el-button>
 
 
   </div>
@@ -37,7 +44,17 @@ export default {
         this.$router.push('/Configuration')
         // this.$store.commit('test')
       },
-      
+      SpecialLabel(){
+        this.$router.push('/SpecialLabel')
+      }
+      ,
+      cameraLabel(){
+        this.$router.push('/cameraLabel')
+      }
+      ,
+      outside(){
+        this.$router.push('/outside')
+      }
   },
   store,
   mounted(){
@@ -60,7 +77,7 @@ export default {
   /* display: flex; */
   width:300px;
   position: absolute;
-  top:30%;
+  top:10%;
   left:40%;
 }
 .btn{

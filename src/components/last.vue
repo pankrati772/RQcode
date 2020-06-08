@@ -126,6 +126,12 @@ export default {
                     console.log(data)
                     this.snnum=''
                 })
+             }else if(this.company.name==='出口外贸'){
+               
+               axios.post(this.URL+'/sys/publishForeignTradeBig',msg).then((data)=>{
+                    console.log(data)
+                    this.snnum=''
+                })
              }
             
           }
