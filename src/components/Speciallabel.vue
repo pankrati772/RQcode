@@ -59,7 +59,7 @@
       </el-form>
         <el-form ref="form" :model="form" label-width="150px">
         <el-form-item label="请输入产品名称">
-         <el-input v-model="form.name" style="width:220px" placeholder="输入产品名称" ref="numend"></el-input>
+         <el-input v-model="form.modelname" style="width:220px" placeholder="输入产品名称" ref="numend"></el-input>
         </el-form-item>
        
         <el-form-item label="输入产品开始SN">
@@ -125,15 +125,99 @@ export default {
   },
   methods:{
         onSubmit() {
-          console.log(this.form)
           // var str1 = '123123213123'
           // var str2 = str1.substr(str1.length-4,4)
           // console.log(str2)
-          let beginstr = this.form.beginSN.substr(this.form.beginSN.length-4,4)
-          let endstr = this.form.endSN.substr(this.form.endSN.length-4,4)
-          console.log(beginstr,endstr)
-          for(let i=beginstr;i<=endstr;i++){
-            console.log(i)
+          console.log(this.form.company.id)
+          //宇视
+          if(this.form.company.id=='78eaa46f0e25406f9d3197316cfc0285'){
+            let beginstr = this.form.beginSN.substr(this.form.beginSN.length-4,4)
+            let endstr = this.form.endSN.substr(this.form.endSN.length-4,4)
+            console.log(beginstr,endstr)
+            for(let i=beginstr;i<=endstr;i++){
+              console.log(i)
+              console.log(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+              this.form.sn.push(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+            }
+            console.log(this.form)
+            axios.post(this.URL+'/sys/publishSpecialAgain',this.form).then(data=>{
+              console.log(data)
+            })
+          }
+          //科艺光电
+          else if(this.form.company.id=='7839115a75184e6391753965a54c0123'){
+            let beginstr = this.form.beginSN.substr(this.form.beginSN.length-4,4)
+            let endstr = this.form.endSN.substr(this.form.endSN.length-4,4)
+            console.log(beginstr,endstr)
+            for(let i=beginstr;i<=endstr;i++){
+              console.log(i)
+              console.log(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+              this.form.sn.push(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+            }
+            console.log(this.form)
+            axios.post(this.URL+'/sys/publishSpecialAgain',this.form).then(data=>{
+              console.log(data)
+            })
+          }
+          //中科四创
+          else if(this.form.company.id=='78be893168234f3081121883bfe123e2'){
+            let beginstr = this.form.beginSN.substr(this.form.beginSN.length-5,4)
+            let endstr = this.form.endSN.substr(this.form.endSN.length-5,4)
+            console.log(beginstr,endstr)
+            for(let i=beginstr;i<=endstr;i++){
+              console.log(i)
+              // console.log(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+              this.form.sn.push(this.form.beginSN.substring(0,this.form.beginSN.length-5)+i+'A')
+            }
+            console.log(this.form)
+            axios.post(this.URL+'/sys/publishSpecialAgain',this.form).then(data=>{
+              console.log(data)
+            })
+          }
+          //外贸出口
+          else if(this.form.company.id=='dbc3e688b9aa44f680fcf0aaf90ee736'){
+            let beginstr = this.form.beginSN.substr(this.form.beginSN.length-5,4)
+            let endstr = this.form.endSN.substr(this.form.endSN.length-5,4)
+            console.log(beginstr,endstr)
+            for(let i=beginstr;i<=endstr;i++){
+              console.log(i)
+              // console.log(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+              this.form.sn.push(this.form.beginSN.substring(0,this.form.beginSN.length-5)+i+'A')
+            }
+            console.log(this.form)
+            axios.post(this.URL+'/sys/publishSpecialAgain',this.form).then(data=>{
+              console.log(data)
+            })
+          }
+          //中性
+          else if(this.form.company.id=='60c6b5d3f42445ef8953dbb92f8d861b'){
+            let beginstr = this.form.beginSN.substr(this.form.beginSN.length-4,4)
+            let endstr = this.form.endSN.substr(this.form.endSN.length-4,4)
+            console.log(beginstr,endstr)
+            for(let i=beginstr;i<=endstr;i++){
+              console.log(i)
+              console.log(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+              this.form.sn.push(this.form.beginSN.substring(0,this.form.beginSN.length-4)+i)
+            }
+            console.log(this.form)
+            axios.post(this.URL+'/sys/publishSpecialAgain',this.form).then(data=>{
+              console.log(data)
+            })
+          }
+          //中控
+          else if(this.form.company.id=='b01530159dbe44c790029a05074358cc'){
+            let beginstr = this.form.beginSN.substr(this.form.beginSN.length-6,6)
+            let endstr = this.form.endSN.substr(this.form.endSN.length-6,6)
+            console.log(beginstr,endstr)
+            for(let i=beginstr;i<=endstr;i++){
+              console.log(i)
+              console.log(this.form.beginSN.substring(0,this.form.beginSN.length-6)+i)
+              this.form.sn.push(this.form.beginSN.substring(0,this.form.beginSN.length-6)+i)
+            }
+            console.log(this.form)
+            axios.post(this.URL+'/sys/publishSpecialAgain',this.form).then(data=>{
+              console.log(data)
+            })
           }
           
             },

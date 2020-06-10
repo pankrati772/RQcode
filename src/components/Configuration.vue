@@ -186,7 +186,7 @@ export default {
     }
   },
   mounted(){
-    this.URL=this.$store.state.serverURL
+    this.URL=this.$store.state.URL
     // 获取公司名字
     axios.get(this.URL+'/factory/getAll').then((data)=>{
         console.log(data.data)
